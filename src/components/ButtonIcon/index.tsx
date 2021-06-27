@@ -20,7 +20,7 @@ export function ButtonIcon({ title, ...rest }: ButtonIconProps) {
         <Image source={DiscordLogoImg} style={styles.icon} />
       </View>
 
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{ title }</Text>
     </RectButton>
   );
 }

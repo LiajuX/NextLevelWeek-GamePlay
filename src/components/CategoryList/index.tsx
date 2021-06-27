@@ -8,9 +8,15 @@ import { categories } from '../../utils/categories';
 
 type CategoryListProps = {
   categorySelected: string;
+  setCategory: (categoryId: string) => void;
+  hasCheckbox?: boolean;
 };
 
-export function CategoryList({ categorySelected }: CategoryListProps) {
+export function CategoryList({ 
+  categorySelected, 
+  setCategory,
+  hasCheckbox = false,
+}: CategoryListProps) {
   return (
     <>
     <ScrollView
@@ -25,6 +31,8 @@ export function CategoryList({ categorySelected }: CategoryListProps) {
           title={category.title}
           icon={category.icon}
           selected={category.id === categorySelected}
+          onPress={() => setCategory(category.id)}
+          hasCheckbox={hasCheckbox}
         />
       ))}
     </ScrollView>

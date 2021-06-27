@@ -2,38 +2,52 @@ import React from 'react';
 import { 
   View, 
   Text, 
-  Image 
+  Image, 
+  Alert,
+  ActivityIndicator
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
+import { useAuth } from '../../hooks/useAuth';
+
+import { Background } from '../../components/Background';
 import { ButtonIcon } from '../../components/ButtonIcon';
 
 import IllustrationImg from '../../assets/images/illustration.png';
 
+import { theme } from '../../global/styles/theme';
 import { styles } from './styles';
 
 export function SignIn() {
-  const navigation = useNavigation();
+  const { loading, signIn } = useAuth();
 
-  function handleSignIn() {
-    navigation.navigate('Home');
+  async function handleSignIn() {
+    try {
+      await signIn();
+    } catch (error) {
+      Alert.alert(error);
+    }
   }
 
   return (
-    <View style={styles.container}>
-      <Image source={IllustrationImg} style={styles.image} resizeMode="stretch" />
-      
-      <View style={styles.content}>
-        <Text style={styles.title}>
-          Conecte-se{'\n'}e organize suas jogatinas
-        </Text>
-      
-        <Text style={styles.subtitle}>
-          Crie grupos para jogar seus games favoritos com seus amigos
-        </Text>
+    <Background>
+      <View style={styles.container}>
+        <Image source={IllustrationImg} style={styles.image} resizeMode="stretch" />
+        
+        <View style={styles.content}>
+          <Text style={styles.title}>
+            Conecte-se{'\n'}e organize suas jogatinas
+          </Text>
+        
+          <Text style={styles.subtitle}>
+            Crie grupos para jogar seus games favoritos com seus amigos
+          </Text>
 
-        <ButtonIcon title="Entrar com Discord" onPress={handleSignIn} />
+          { loading
+            ? <ActivityIndicator color={theme.colors.primary} /> 
+            : <ButtonIcon title="Entrar com Discord" onPress={handleSignIn} /> 
+          }
+        </View>
       </View>
-    </View>
+    </Background>
   );
 }
